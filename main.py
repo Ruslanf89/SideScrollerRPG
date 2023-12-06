@@ -1,16 +1,27 @@
-# This is a sample Python script.
+'''This is a main file for SideScrollerRPG game project
+Main game loop will be here
+RUN this file for play the game
+'''
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import pygame, sys
+from Scripts.settings import *
+from Scripts.level import Level
 
+# Pygame Initialization
+pygame.init()
+screen = pygame.display.set_mode((screen_width, screen_height))
+clock = pygame.time.Clock()
+level = Level(level_map, screen)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Main Loop
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        screen.fill((0, 0, 0))
+        level.run()
 
+        pygame.display.update()
+        clock.tick(60)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
