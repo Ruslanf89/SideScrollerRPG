@@ -22,7 +22,7 @@ class Level:
         direction_y = player.direction.y
 
         # Scroll world left and right
-        if player_x < 200 and direction_x < 0:
+        if player_x < 50 and direction_x < 0:
             self.world_shift_x = 8
             player.speed = 0
         elif player_x > 1000 and direction_x > 0:
@@ -36,7 +36,7 @@ class Level:
         if player_y < 50 and direction_y < 0:
             self.world_shift_y = 8
             player.speed = 0
-        elif player_y > screen_height - 100 and direction_y > 0:
+        elif player_y > screen_height - 50 and direction_y > 0:
             self.world_shift_y = -8
             player.speed = 0
         else:
