@@ -9,6 +9,7 @@ class Tile(pygame.sprite.Sprite):
 
         self.image = pygame.Surface((size, size)) # (size, size) because rectangle created
         self.image.fill((0, 190, 0))
-        self.rect = self.image.get_rect(topleft = position)
-    def update(self, x_shift):
+        self.rect = self.image.get_rect(topleft=position)
+    def update(self, x_shift, y_shift):
         self.rect.x += x_shift # Scroll thru the map
+        self.rect.y += y_shift
