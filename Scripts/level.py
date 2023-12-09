@@ -2,7 +2,7 @@
 
 import pygame
 from Scripts.tiles import Tile
-from Scripts.settings import tile_size
+from Scripts.settings import tile_size, screen_width
 from Scripts.player import Player
 
 class Level:
@@ -10,7 +10,7 @@ class Level:
         # Level Setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = 1 # make map scroll "+" value move left -> right "-" value move right -> left
+        self.world_shift = 8 # make map scroll "+" value move left -> right "-" value move right -> left
 
     # setup_level create level from a list.
     def setup_level(self, layout):
@@ -29,6 +29,21 @@ class Level:
                     player_sprite = Player((x, y))
                     self.player_tiles.add(player_sprite)
 
+    def scroll_x(self):
+        player = self.player_tiles.sprite
+        player_x = player.rect.centerx
+        direction_x = player.direction.x
+
+        if player_x < (screen_width / 12) and direction_x < 0:
+            self.world_shift = 8
+            player.speed = 0
+        elif player_x > screen_width - (screen_width / 12) and direction_x > 0:
+            self.world_shift = -8
+            player.speed = 0
+        else:
+            self.world_shift = 0
+            player.speed = 8
+
     def run(self):
         # level tiles
         self.tiles.update(self.world_shift)
@@ -37,4 +52,5 @@ class Level:
         # player
         self.player_tiles.update()
         self.player_tiles.draw(self.display_surface)
+        self.scroll_x()
 
