@@ -12,6 +12,7 @@ class Level:
         self.setup_level(level_data)
         self.world_shift = 0 # make map scroll "+" value move left -> right "-" value move right -> left
 
+
     # setup_level create level from a list.
     def setup_level(self, layout):
         self.tiles = pygame.sprite.Group()
