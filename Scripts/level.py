@@ -11,7 +11,7 @@ class Level:
         self.display_surface = surface
         self.setup_level(level_data)
         self.world_shift = 0 # make map scroll "+" value move left -> right "-" value move right -> left
-
+        self.current_x = 0
 
     # setup_level create level from a list.
     def setup_level(self, layout):
@@ -53,8 +53,10 @@ class Level:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
                     player.rect.left = sprite.rect.right # collision on right
+                    player.on_left = True
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.left # collision on left
+                    player.on_right = True
 
     def vertical_movement_collision(self):
         player = self.player_tiles.sprite
@@ -67,10 +69,17 @@ class Level:
                     player.rect.bottom = sprite.rect.top
                     player.direction.y = 0
                     player.on_ground = True
+                    self.current_x = player.rect.left
                 elif player.direction.y < 0:
                     player.rect.top = sprite.rect.bottom
                     player.direction.y = 0
                     player.on_ceiling = True
+                    self.current_x = player.rect.right
+
+        if player.on_left and (player.rect.left < self.current_x or player.direction.x >= 0):
+            player.on_left = False
+        if player.on_right and (player.rect.right > self.current_x or player.direction.x <= 0):
+            player.on_right = False
 
         if player.on_ground and player.direction.y < 0 or player.direction.y > 1:
             player.on_ground = False
