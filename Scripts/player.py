@@ -22,8 +22,10 @@ class Player(pygame.sprite.Sprite):
         # Player status
         self.status = 'Idle'
         self.facing_right = True
-
-
+        self.on_ground = False
+        self.on_ceiling = False
+        self.on_right = False
+        self.on_left = False
 
     def import_assets(self):
         character_path = '../SideScrollerRPG/Sprites/character/'
@@ -48,6 +50,13 @@ class Player(pygame.sprite.Sprite):
             flipped_image = pygame.transform.flip(image, True, False)
             self.image = flipped_image
 
+        # Set the rect
+        if self.on_ground:
+            self.rect = self.image.get_rect(midbottom = self.rect.midbottom)
+        elif self.on_ceiling:
+            self.rect = self.image.get_rect(midtop = self.rect.midtop)
+        else:
+            self.rect = self.image.get_rect(center = self.rect.center)
     def get_iput(self):
         keys = pygame.key.get_pressed()
 
