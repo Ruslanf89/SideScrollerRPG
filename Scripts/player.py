@@ -68,7 +68,8 @@ class Player(pygame.sprite.Sprite):
             self.facing_right = False
         else:
             self.direction.x = 0
-        if keys[pygame.K_SPACE]:
+
+        if keys[pygame.K_SPACE] and self.on_ground == True:
             self.jump()
 
     def get_status(self):
