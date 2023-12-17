@@ -19,13 +19,27 @@ class Player(pygame.sprite.Sprite):
         # Animation management
         self.last_update = pygame.time.get_ticks()
 
+        # Player status
+        self.status = 'Idle'
+
+
+
     def import_assets(self):
-        character_path = 'C:/Users/Dypko/SideScrollerRPG/Sprites/character/'
-        self.animations = {'Idle': [], 'Running': []}
+        character_path = '../SideScrollerRPG/Sprites/character/'
+        self.animations = {'Idle': [], 'Running': [], 'Jump': [], 'Falling_Down': []}
 
         for animation in self.animations.keys():
             full_path = character_path + animation
             self.animations[animation] = import_folder(full_path)
+
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # Loop over frame index
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+        self.image = animation[int(self.frame_index)]
 
     def get_iput(self):
         keys = pygame.key.get_pressed()
@@ -38,6 +52,18 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
         if keys[pygame.K_SPACE]:
             self.jump()
+
+    def get_status(self):
+        if self.direction.y < 0:
+            self.status = 'Jump'
+        elif self.direction.y > 0:
+            self.status = 'Falling_Down'
+        else:
+            if self.direction.x !=0:
+                self.status = 'Running'
+            else:
+                self.status = 'Idle'
+
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
@@ -46,3 +72,5 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.get_iput()
+        self.get_status()
+        self.animate()
