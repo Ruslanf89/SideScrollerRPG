@@ -6,14 +6,15 @@ RUN this file for play the game
 import pygame, sys
 from Scripts.settings import *
 from Scripts.level import Level
-import Scripts.player
+from Scripts.level_map import level_0
+# import Scripts.player
 
 # Pygame Initialization
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('SideScrollerRPG')
 clock = pygame.time.Clock()
-level = Level(level_map, screen)
+level = Level(level_0, screen)
 
 # Main Loop
 while True:

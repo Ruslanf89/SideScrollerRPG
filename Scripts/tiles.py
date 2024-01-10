@@ -2,13 +2,15 @@
 
 import pygame
 
-# Tile class implementing map generation from a list
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, position, size):
+    def __init__(self, size, x,y):
         super().__init__()
+        self.image = pygame.Surface((size, size))
+        self.rect = self.image.get_rect(topleft = (x,y))
 
-        self.image = pygame.Surface((size, size)) # (size, size) because rectangle created
-        self.image.fill((0, 190, 0))
-        self.rect = self.image.get_rect(topleft=position)
-    def update(self, x_shift):
-        self.rect.x += x_shift # Scroll thru the map
+    def update(self, shift):
+        self.rect.x += shift # Scroll thru the map
+class StaticTile(Tile):
+    def __init__(self,size,x,y,surface):
+        super().__init__(size,x,y)
+        self.image = surface
